@@ -76,8 +76,8 @@ h1, h2, h3 {
 }
 .bg-texture {
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background: url('images/bg-texture.png') center/cover no-repeat;
-    opacity: 0.08;
+    background: url('images/bg-texture.png') center/cover;
+    opacity: 0.12;
 }
 
 section, header, footer, nav { position: relative; z-index: 1; }
@@ -727,6 +727,64 @@ footer p {
 }
 .modal-close:hover { background: var(--sage-dark); }
 
+/* ===== INSTRUCTOR POPUP ===== */
+.instr-popup {
+    position: fixed; inset: 0;
+    background: rgba(45,42,38,0.4);
+    backdrop-filter: blur(6px);
+    z-index: 10000;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden;
+    transition: all 0.4s;
+}
+.instr-popup.active { opacity: 1; visibility: visible; }
+.instr-popup-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    max-width: 520px; width: 92%;
+    display: grid; grid-template-columns: 140px 1fr; gap: 1.5rem;
+    align-items: start;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+    position: relative;
+}
+.instr-popup.active .instr-popup-card { transform: scale(1) translateY(0); }
+.instr-popup-photo {
+    width: 140px; height: 180px;
+    border-radius: var(--radius);
+    object-fit: cover;
+}
+.instr-popup-text h3 { font-size: 1.3rem; margin-bottom: 0.2rem; }
+.instr-popup-role {
+    font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--sage-dark); margin-bottom: 1rem;
+}
+.instr-popup-text p { font-size: 0.88rem; color: var(--dark-50); line-height: 1.7; margin-bottom: 0.8rem; }
+.instr-popup-certs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
+.instr-popup-close {
+    position: absolute; top: 1rem; right: 1rem;
+    background: none; border: none; font-size: 1.2rem;
+    color: var(--dark-30); cursor: pointer; transition: color 0.3s;
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+}
+.instr-popup-close:hover { color: var(--dark); background: var(--dark-10); }
+.instr-popup-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--sage); color: var(--white); border: none;
+    padding: 10px 24px; border-radius: 100px;
+    font-family: var(--sans); font-size: 12px; font-weight: 500;
+    cursor: pointer; transition: all 0.3s;
+}
+.instr-popup-btn:hover { background: var(--sage-dark); }
+@media (max-width: 768px) {
+    .instr-popup-card { grid-template-columns: 1fr; text-align: center; }
+    .instr-popup-photo { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto; }
+    .instr-popup-certs { justify-content: center; }
+}
+
 /* ===== MAX + SCROLL TOP ===== */
 .float-msg {
     position: fixed; bottom: 1.5rem; right: 1.5rem;
@@ -943,11 +1001,11 @@ footer p {
     </div>
 
     <div class="other-instructors reveal">
-        <div class="mini-instructor" onclick="scrollToBooking()"><div class="mini-avatar"><img src="images/anna.png" alt="Анна"></div><div class="mini-name">Анна</div></div>
-        <div class="mini-instructor" onclick="scrollToBooking()"><div class="mini-avatar"><img src="images/dmitriy.png" alt="Дмитрий"></div><div class="mini-name">Дмитрий</div></div>
-        <div class="mini-instructor" onclick="scrollToBooking()"><div class="mini-avatar"><img src="images/maria.png" alt="Мария"></div><div class="mini-name">Мария</div></div>
+        <div class="mini-instructor" onclick="showInstructor('anna')"><div class="mini-avatar"><img src="images/anna.png" alt="Анна"></div><div class="mini-name">Анна</div></div>
+        <div class="mini-instructor" onclick="showInstructor('dmitriy')"><div class="mini-avatar"><img src="images/dmitriy.png" alt="Дмитрий"></div><div class="mini-name">Дмитрий</div></div>
+        <div class="mini-instructor" onclick="showInstructor('maria')"><div class="mini-avatar"><img src="images/maria.png" alt="Мария"></div><div class="mini-name">Мария</div></div>
     </div>
-    <p class="mini-label reveal">И ещё 3 инструктора в нашей команде</p>
+    <p class="mini-label reveal"></p>
 </section>
 
 <!-- FULLWIDTH STRIP -->
@@ -1040,6 +1098,21 @@ footer p {
         <li><a href="#">Политика конфиденциальности</a></li>
     </ul>
 </footer>
+
+<!-- INSTRUCTOR POPUP -->
+<div class="instr-popup" id="instrPopup" onclick="if(event.target===this)this.classList.remove('active')">
+    <div class="instr-popup-card">
+        <button class="instr-popup-close" onclick="document.getElementById('instrPopup').classList.remove('active')">&#10005;</button>
+        <img class="instr-popup-photo" id="ipPhoto" src="" alt="">
+        <div class="instr-popup-text">
+            <h3 id="ipName"></h3>
+            <div class="instr-popup-role" id="ipRole"></div>
+            <p id="ipBio"></p>
+            <div class="instr-popup-certs" id="ipCerts"></div>
+            <button class="instr-popup-btn" onclick="document.getElementById('instrPopup').classList.remove('active');scrollToBooking()">Записаться</button>
+        </div>
+    </div>
+</div>
 
 <!-- MODAL -->
 <div class="modal-overlay" id="successModal" onclick="closeModal(event)">
@@ -1147,6 +1220,43 @@ function showSuccess(btn, form) {
 
 function closeModal(e) {
     if (e.target === e.currentTarget) e.currentTarget.classList.remove('active');
+}
+
+// Instructor popups
+const instructors = {
+    anna: {
+        name: 'Анна Светлова',
+        role: 'Инструктор виньясы',
+        photo: 'images/anna.png',
+        bio: 'Сертифицированный преподаватель виньяса-флоу. 5 лет практики, обучение на Бали. Мягкий подход, идеальна для начинающих.',
+        certs: ['RYT-200', 'Бали, Индонезия']
+    },
+    dmitriy: {
+        name: 'Дмитрий Волков',
+        role: 'Инструктор аштанги и массажист',
+        photo: 'images/dmitriy.png',
+        bio: '7 лет в аштанга-йоге, сертифицированный тайский массажист. Силовая практика и глубокая работа с телом.',
+        certs: ['Аштанга Level 2', 'Thai Massage Cert.']
+    },
+    maria: {
+        name: 'Мария Тишина',
+        role: 'Инструктор медитаций',
+        photo: 'images/maria.png',
+        bio: 'Ведёт утренние и звуковые медитации. Практикует випассану 6 лет. Мастер поющих чаш и гонг-терапии.',
+        certs: ['Випассана', 'Sound Healing Cert.']
+    }
+};
+
+function showInstructor(key) {
+    const d = instructors[key];
+    if (!d) return;
+    document.getElementById('ipPhoto').src = d.photo;
+    document.getElementById('ipPhoto').alt = d.name;
+    document.getElementById('ipName').textContent = d.name;
+    document.getElementById('ipRole').textContent = d.role;
+    document.getElementById('ipBio').textContent = d.bio;
+    document.getElementById('ipCerts').innerHTML = d.certs.map(c => `<span class="cert-tag">${c}</span>`).join('');
+    document.getElementById('instrPopup').classList.add('active');
 }
 
 // Smooth scroll
