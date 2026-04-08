@@ -406,6 +406,7 @@ nav.scrolled {
     grid-template-columns: 1fr 1.3fr;
     gap: 3rem;
     align-items: center;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .instructor-photo-wrap {
     position: relative;
@@ -499,6 +500,10 @@ nav.scrolled {
     transition: transform 0.3s;
 }
 .mini-instructor:hover { transform: translateY(-4px); }
+.mini-instructor.active .mini-avatar {
+    border-color: var(--sage);
+    box-shadow: 0 0 0 3px rgba(143,160,122,0.2);
+}
 .mini-name {
     font-size: 0.78rem; color: var(--dark-50);
 }
@@ -984,23 +989,24 @@ footer p {
 
     <div class="instructor-card reveal">
         <div class="instructor-photo-wrap">
-            <img class="instructor-photo" src="images/instructor.png" alt="Елена Тихонова">
+            <img class="instructor-photo" id="mainInstrPhoto" src="images/instructor.png" alt="Елена Тихонова">
         </div>
         <div class="instructor-text">
-            <h3>Елена Тихонова</h3>
-            <div class="instructor-role">Основатель и ведущий инструктор</div>
-            <p>12 лет в практике йоги, из них 8 -- в преподавании. Обучалась в Ришикеше (Индия), прошла 500-часовую сертификацию Yoga Alliance. Ведёт хатху, виньясу и медитации.</p>
-            <p>Елена верит, что йога начинается не на коврике, а в моменте, когда вы решили прийти.</p>
-            <div class="instructor-certs">
+            <h3 id="mainInstrName">Елена Тихонова</h3>
+            <div class="instructor-role" id="mainInstrRole">Основатель и ведущий инструктор</div>
+            <p id="mainInstrBio">12 лет в практике йоги, из них 8 -- в преподавании. Обучалась в Ришикеше (Индия), прошла 500-часовую сертификацию Yoga Alliance. Ведёт хатху, виньясу и медитации.</p>
+            <p id="mainInstrQuote" style="font-style:italic;color:var(--sage-dark)">Елена верит, что йога начинается не на коврике, а в моменте, когда вы решили прийти.</p>
+            <div class="instructor-certs" id="mainInstrCerts">
                 <span class="cert-tag">RYT-500</span>
                 <span class="cert-tag">Yoga Alliance</span>
                 <span class="cert-tag">Ришикеш, Индия</span>
             </div>
-            <button class="instructor-btn" onclick="scrollToBooking()">Записаться к Елене</button>
+            <button class="instructor-btn" id="mainInstrBtn" onclick="scrollToBooking()">Записаться к Елене</button>
         </div>
     </div>
 
     <div class="other-instructors reveal">
+        <div class="mini-instructor active" onclick="showInstructor('elena')"><div class="mini-avatar"><img src="images/instructor.png" alt="Елена"></div><div class="mini-name">Елена</div></div>
         <div class="mini-instructor" onclick="showInstructor('anna')"><div class="mini-avatar"><img src="images/anna.png" alt="Анна"></div><div class="mini-name">Анна</div></div>
         <div class="mini-instructor" onclick="showInstructor('dmitriy')"><div class="mini-avatar"><img src="images/dmitriy.png" alt="Дмитрий"></div><div class="mini-name">Дмитрий</div></div>
         <div class="mini-instructor" onclick="showInstructor('maria')"><div class="mini-avatar"><img src="images/maria.png" alt="Мария"></div><div class="mini-name">Мария</div></div>
@@ -1098,21 +1104,6 @@ footer p {
         <li><a href="#">Политика конфиденциальности</a></li>
     </ul>
 </footer>
-
-<!-- INSTRUCTOR POPUP -->
-<div class="instr-popup" id="instrPopup" onclick="if(event.target===this)this.classList.remove('active')">
-    <div class="instr-popup-card">
-        <button class="instr-popup-close" onclick="document.getElementById('instrPopup').classList.remove('active')">&#10005;</button>
-        <img class="instr-popup-photo" id="ipPhoto" src="" alt="">
-        <div class="instr-popup-text">
-            <h3 id="ipName"></h3>
-            <div class="instr-popup-role" id="ipRole"></div>
-            <p id="ipBio"></p>
-            <div class="instr-popup-certs" id="ipCerts"></div>
-            <button class="instr-popup-btn" onclick="document.getElementById('instrPopup').classList.remove('active');scrollToBooking()">Записаться</button>
-        </div>
-    </div>
-</div>
 
 <!-- MODAL -->
 <div class="modal-overlay" id="successModal" onclick="closeModal(event)">
@@ -1222,27 +1213,34 @@ function closeModal(e) {
     if (e.target === e.currentTarget) e.currentTarget.classList.remove('active');
 }
 
-// Instructor popups
+// Instructor data
 const instructors = {
+    elena: {
+        name: 'Елена Тихонова', role: 'Основатель и ведущий инструктор',
+        photo: 'images/instructor.png',
+        bio: '12 лет в практике йоги, из них 8 -- в преподавании. Обучалась в Ришикеше (Индия), прошла 500-часовую сертификацию Yoga Alliance. Ведёт хатху, виньясу и медитации.',
+        quote: 'Елена верит, что йога начинается не на коврике, а в моменте, когда вы решили прийти.',
+        certs: ['RYT-500', 'Yoga Alliance', 'Ришикеш, Индия']
+    },
     anna: {
-        name: 'Анна Светлова',
-        role: 'Инструктор виньясы',
+        name: 'Анна Светлова', role: 'Инструктор виньясы',
         photo: 'images/anna.png',
         bio: 'Сертифицированный преподаватель виньяса-флоу. 5 лет практики, обучение на Бали. Мягкий подход, идеальна для начинающих.',
+        quote: 'Каждое движение -- это разговор с телом. Я помогу вам услышать его.',
         certs: ['RYT-200', 'Бали, Индонезия']
     },
     dmitriy: {
-        name: 'Дмитрий Волков',
-        role: 'Инструктор аштанги и массажист',
+        name: 'Дмитрий Волков', role: 'Инструктор аштанги и массажист',
         photo: 'images/dmitriy.png',
         bio: '7 лет в аштанга-йоге, сертифицированный тайский массажист. Силовая практика и глубокая работа с телом.',
+        quote: 'Сила рождается из дисциплины. Йога учит обоим.',
         certs: ['Аштанга Level 2', 'Thai Massage Cert.']
     },
     maria: {
-        name: 'Мария Тишина',
-        role: 'Инструктор медитаций',
+        name: 'Мария Тишина', role: 'Инструктор медитаций',
         photo: 'images/maria.png',
         bio: 'Ведёт утренние и звуковые медитации. Практикует випассану 6 лет. Мастер поющих чаш и гонг-терапии.',
+        quote: 'Тишина внутри -- это не пустота, а пространство для нового.',
         certs: ['Випассана', 'Sound Healing Cert.']
     }
 };
@@ -1250,13 +1248,24 @@ const instructors = {
 function showInstructor(key) {
     const d = instructors[key];
     if (!d) return;
-    document.getElementById('ipPhoto').src = d.photo;
-    document.getElementById('ipPhoto').alt = d.name;
-    document.getElementById('ipName').textContent = d.name;
-    document.getElementById('ipRole').textContent = d.role;
-    document.getElementById('ipBio').textContent = d.bio;
-    document.getElementById('ipCerts').innerHTML = d.certs.map(c => `<span class="cert-tag">${c}</span>`).join('');
-    document.getElementById('instrPopup').classList.add('active');
+    const card = document.querySelector('.instructor-card');
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+        document.getElementById('mainInstrPhoto').src = d.photo;
+        document.getElementById('mainInstrPhoto').alt = d.name;
+        document.getElementById('mainInstrName').textContent = d.name;
+        document.getElementById('mainInstrRole').textContent = d.role;
+        document.getElementById('mainInstrBio').textContent = d.bio;
+        document.getElementById('mainInstrQuote').textContent = d.quote;
+        document.getElementById('mainInstrCerts').innerHTML = d.certs.map(c => `<span class="cert-tag">${c}</span>`).join('');
+        document.getElementById('mainInstrBtn').textContent = 'Записаться к ' + d.name.split(' ')[0];
+        document.querySelectorAll('.mini-instructor').forEach(el => el.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        card.style.opacity = '1';
+        card.style.transform = 'none';
+    }, 300);
+    document.querySelector('.instructor-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 // Smooth scroll
