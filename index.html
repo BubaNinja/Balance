@@ -76,7 +76,7 @@ h1, h2, h3 {
 }
 .bg-texture {
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background: url('images/bg-texture.png') center/cover;
+    background: url('images/background.png') center/cover fixed;
     opacity: 0.12;
 }
 
@@ -1006,10 +1006,10 @@ footer p {
     </div>
 
     <div class="other-instructors reveal">
-        <div class="mini-instructor active" onclick="showInstructor('elena')"><div class="mini-avatar"><img src="images/instructor.png" alt="Елена"></div><div class="mini-name">Елена</div></div>
-        <div class="mini-instructor" onclick="showInstructor('anna')"><div class="mini-avatar"><img src="images/anna.png" alt="Анна"></div><div class="mini-name">Анна</div></div>
-        <div class="mini-instructor" onclick="showInstructor('dmitriy')"><div class="mini-avatar"><img src="images/dmitriy.png" alt="Дмитрий"></div><div class="mini-name">Дмитрий</div></div>
-        <div class="mini-instructor" onclick="showInstructor('maria')"><div class="mini-avatar"><img src="images/maria.png" alt="Мария"></div><div class="mini-name">Мария</div></div>
+        <div class="mini-instructor active" onclick="showInstructor('elena',this)"><div class="mini-avatar"><img src="images/instructor.png" alt="Елена"></div><div class="mini-name">Елена</div></div>
+        <div class="mini-instructor" onclick="showInstructor('anna',this)"><div class="mini-avatar"><img src="images/anna.png" alt="Анна"></div><div class="mini-name">Анна</div></div>
+        <div class="mini-instructor" onclick="showInstructor('dmitriy',this)"><div class="mini-avatar"><img src="images/dmitriy.png" alt="Дмитрий"></div><div class="mini-name">Дмитрий</div></div>
+        <div class="mini-instructor" onclick="showInstructor('maria',this)"><div class="mini-avatar"><img src="images/maria.png" alt="Мария"></div><div class="mini-name">Мария</div></div>
     </div>
     <p class="mini-label reveal"></p>
 </section>
@@ -1245,27 +1245,19 @@ const instructors = {
     }
 };
 
-function showInstructor(key) {
+function showInstructor(key, el) {
     const d = instructors[key];
     if (!d) return;
-    const card = document.querySelector('.instructor-card');
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(20px)';
-    setTimeout(() => {
-        document.getElementById('mainInstrPhoto').src = d.photo;
-        document.getElementById('mainInstrPhoto').alt = d.name;
-        document.getElementById('mainInstrName').textContent = d.name;
-        document.getElementById('mainInstrRole').textContent = d.role;
-        document.getElementById('mainInstrBio').textContent = d.bio;
-        document.getElementById('mainInstrQuote').textContent = d.quote;
-        document.getElementById('mainInstrCerts').innerHTML = d.certs.map(c => `<span class="cert-tag">${c}</span>`).join('');
-        document.getElementById('mainInstrBtn').textContent = 'Записаться к ' + d.name.split(' ')[0];
-        document.querySelectorAll('.mini-instructor').forEach(el => el.classList.remove('active'));
-        event.currentTarget.classList.add('active');
-        card.style.opacity = '1';
-        card.style.transform = 'none';
-    }, 300);
-    document.querySelector('.instructor-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.querySelectorAll('.mini-instructor').forEach(e => e.classList.remove('active'));
+    if (el) el.classList.add('active');
+    document.getElementById('mainInstrPhoto').src = d.photo;
+    document.getElementById('mainInstrPhoto').alt = d.name;
+    document.getElementById('mainInstrName').textContent = d.name;
+    document.getElementById('mainInstrRole').textContent = d.role;
+    document.getElementById('mainInstrBio').textContent = d.bio;
+    document.getElementById('mainInstrQuote').textContent = d.quote;
+    document.getElementById('mainInstrCerts').innerHTML = d.certs.map(c => `<span class="cert-tag">${c}</span>`).join('');
+    document.getElementById('mainInstrBtn').textContent = 'Записаться к ' + d.name.split(' ')[0];
 }
 
 // Smooth scroll
