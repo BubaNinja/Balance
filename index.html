@@ -9,7 +9,7 @@
 <meta property="og:title" content="BALANCE Studio -- Йога и спа в Москве">
 <meta property="og:description" content="Гармония тела и ума. Хатха, виньяса, медитация. Группы до 10 человек.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="images/hero.png">
+<meta property="og:image" content="images/hero.jpg">
 <meta property="og:locale" content="ru_RU">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -76,7 +76,7 @@ h1, h2, h3 {
 }
 .bg-texture {
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background: url('images/background.png') center/cover fixed;
+    background: url('images/background.jpg') center/cover fixed;
     opacity: 0.6;
 }
 
@@ -854,7 +854,7 @@ footer p {
     "@context": "https://schema.org",
     "@type": "HealthAndBeautyBusiness",
     "name": "BALANCE Studio",
-    "image": "images/hero.png",
+    "image": "images/hero.jpg",
     "priceRange": "$$",
     "address": {
         "@type": "PostalAddress",
@@ -899,7 +899,7 @@ footer p {
     <div class="hero-shape s3"></div>
 
     <div class="hero-image-wrap">
-        <img class="hero-image" src="images/hero.png" alt="Йога в BALANCE Studio">
+        <img class="hero-image" src="images/hero.jpg" alt="Йога в BALANCE Studio">
     </div>
 
     <h1>Гармония тела и <em>ума</em> -- занятия для любого уровня</h1>
@@ -989,7 +989,7 @@ footer p {
 
     <div class="instructor-card reveal">
         <div class="instructor-photo-wrap">
-            <img class="instructor-photo" id="mainInstrPhoto" src="images/instructor.png" alt="Елена Тихонова">
+            <img loading="lazy" class="instructor-photo" id="mainInstrPhoto" src="images/instructor.jpg" alt="Елена Тихонова">
         </div>
         <div class="instructor-text">
             <h3 id="mainInstrName">Елена Тихонова</h3>
@@ -1006,17 +1006,17 @@ footer p {
     </div>
 
     <div class="other-instructors reveal">
-        <div class="mini-instructor active" onclick="showInstructor('elena',this)"><div class="mini-avatar"><img src="images/instructor.png" alt="Елена"></div><div class="mini-name">Елена</div></div>
-        <div class="mini-instructor" onclick="showInstructor('anna',this)"><div class="mini-avatar"><img src="images/anna.png" alt="Анна"></div><div class="mini-name">Анна</div></div>
-        <div class="mini-instructor" onclick="showInstructor('dmitriy',this)"><div class="mini-avatar"><img src="images/dmitriy.png" alt="Дмитрий"></div><div class="mini-name">Дмитрий</div></div>
-        <div class="mini-instructor" onclick="showInstructor('maria',this)"><div class="mini-avatar"><img src="images/maria.png" alt="Мария"></div><div class="mini-name">Мария</div></div>
+        <div class="mini-instructor active" onclick="showInstructor('elena',this)"><div class="mini-avatar"><img src="images/instructor.jpg" alt="Елена"></div><div class="mini-name">Елена</div></div>
+        <div class="mini-instructor" onclick="showInstructor('anna',this)"><div class="mini-avatar"><img loading="lazy" src="images/anna.jpg" alt="Анна"></div><div class="mini-name">Анна</div></div>
+        <div class="mini-instructor" onclick="showInstructor('dmitriy',this)"><div class="mini-avatar"><img loading="lazy" src="images/dmitriy.jpg" alt="Дмитрий"></div><div class="mini-name">Дмитрий</div></div>
+        <div class="mini-instructor" onclick="showInstructor('maria',this)"><div class="mini-avatar"><img loading="lazy" src="images/maria.jpg" alt="Мария"></div><div class="mini-name">Мария</div></div>
     </div>
     <p class="mini-label reveal"></p>
 </section>
 
 <!-- FULLWIDTH STRIP -->
 <div class="fullwidth-strip">
-    <img src="images/interior.png" alt="Интерьер BALANCE Studio">
+    <img loading="lazy" src="images/interior.jpg" alt="Интерьер BALANCE Studio">
     <div class="strip-overlay">
         <div class="strip-features">
             <div class="strip-feature"><span class="strip-dot"></span> Тихое пространство в центре города</div>
@@ -1217,28 +1217,28 @@ function closeModal(e) {
 const instructors = {
     elena: {
         name: 'Елена Тихонова', role: 'Основатель и ведущий инструктор',
-        photo: 'images/instructor.png',
+        photo: 'images/instructor.jpg',
         bio: '12 лет в практике йоги, из них 8 -- в преподавании. Обучалась в Ришикеше (Индия), прошла 500-часовую сертификацию Yoga Alliance. Ведёт хатху, виньясу и медитации.',
         quote: 'Елена верит, что йога начинается не на коврике, а в моменте, когда вы решили прийти.',
         certs: ['RYT-500', 'Yoga Alliance', 'Ришикеш, Индия']
     },
     anna: {
         name: 'Анна Светлова', role: 'Инструктор виньясы',
-        photo: 'images/anna.png',
+        photo: 'images/anna.jpg',
         bio: 'Сертифицированный преподаватель виньяса-флоу. 5 лет практики, обучение на Бали. Мягкий подход, идеальна для начинающих.',
         quote: 'Каждое движение -- это разговор с телом. Я помогу вам услышать его.',
         certs: ['RYT-200', 'Бали, Индонезия']
     },
     dmitriy: {
         name: 'Дмитрий Волков', role: 'Инструктор аштанги и массажист',
-        photo: 'images/dmitriy.png',
+        photo: 'images/dmitriy.jpg',
         bio: '7 лет в аштанга-йоге, сертифицированный тайский массажист. Силовая практика и глубокая работа с телом.',
         quote: 'Сила рождается из дисциплины. Йога учит обоим.',
         certs: ['Аштанга Level 2', 'Thai Massage Cert.']
     },
     maria: {
         name: 'Мария Тишина', role: 'Инструктор медитаций',
-        photo: 'images/maria.png',
+        photo: 'images/maria.jpg',
         bio: 'Ведёт утренние и звуковые медитации. Практикует випассану 6 лет. Мастер поющих чаш и гонг-терапии.',
         quote: 'Тишина внутри -- это не пустота, а пространство для нового.',
         certs: ['Випассана', 'Sound Healing Cert.']
